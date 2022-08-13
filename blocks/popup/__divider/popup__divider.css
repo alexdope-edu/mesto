@@ -1,0 +1,5 @@
+.popup__divider {
+  border-bottom: 1px solid #000000;
+  margin: 13px 0 0;
+  opacity: 0.2;
+}
