@@ -1,0 +1,156 @@
+.popup {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* opacity: 0.5; */
+  top: 0;
+  left: 0;
+  display: none;
+}
+
+.popup_opened {
+  display: block;
+}
+
+.popup__container {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+ 
+}
+
+.popup__content {
+  box-sizing: border-box;
+  width: 430px;
+  height: 330px;
+  background-color: #fff;
+  color: #000000;
+  padding: 34px 36px 37px;
+  box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (max-width: 680px) {
+  .popup__content {
+    max-width: 282px;
+    max-height: 322px;
+    padding: 25px 22px;
+    /* width: 282px;
+    height: 322px; */
+  }
+}
+
+.popup__title {
+  /* max-height: 23px; */
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 29px;
+  color: #000000;
+  margin: 0 0 54px 0;
+}
+
+@media screen and (max-width: 680px) {
+  .popup__title {
+    font-size: 18px;
+    line-height: 22px;
+    margin: 0 0 75px 0;
+  }
+}
+
+.popup__name {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000000;
+  margin: 0;
+  border: none;
+  outline: none;
+}
+
+.popup__text {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000000;
+  margin: 30px 0 0;
+  border: none;
+  outline: none;
+}
+
+.popup__divider {
+  border-bottom: 1px solid #000000;
+  margin: 13px 0 0;
+  opacity: 0.2;
+  /* border: 1px solid #000000; */
+}
+
+.popup__submit {
+  width: 100%;
+  height: 50px;
+  background-color: #000000;
+  border-radius: 2px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+  color: #ffffff;
+  padding: 0;
+  margin: 48px 0 0;
+  cursor: pointer;
+  transition: opacity 0.5s ease-out;
+  /* align-self: center; */
+}
+
+@media screen and (max-width: 680px) {
+  .popup__submit {
+    width: 238px;
+    height: 46px;
+    font-size: 14px;
+    line-height: 17px;
+  }
+}
+
+.popup__submit:hover {
+  opacity: 0.8;
+}
+
+.popup__close {
+  background-image: url("../../images/close__icon.svg");
+  position: absolute;
+  background-color: transparent;
+  background-size: contain;
+  border: none;
+  right: -40px;
+  top: -40px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  cursor: pointer;
+  transition: opacity 0.5s ease-out;
+}
+
+.popup__close:hover {
+  opacity: 0.6;
+}
+
+@media screen and (max-width: 680px) {
+  .popup__close {
+    right: 0;
+    top: -36px;
+    width: 20px;
+    height: 20px;
+  }
+}

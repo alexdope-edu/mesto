@@ -9,7 +9,6 @@
   height: 19px;
   padding: 0;
   cursor: pointer;
-  display: block;
   transition: opacity 0.5s ease-out;
 }
 
@@ -18,5 +17,5 @@
 }
 
 .elements__button:active {
-  fill: #000000;
+  background-image: url('../../../images/blackheart.svg');
 }
