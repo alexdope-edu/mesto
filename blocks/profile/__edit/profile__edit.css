@@ -9,6 +9,7 @@
   cursor: pointer;
   padding: 0;
   transition: opacity 0.5s ease-out;
+  background-size: 10px;
 }
 
 .profile__edit:hover {
@@ -19,5 +20,6 @@
   .profile__edit {
     width: 18px;
     height: 18px;
+    background-size: 7px;
   }
 }
