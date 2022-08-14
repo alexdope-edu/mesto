@@ -5,7 +5,6 @@ const nameInputElement = profilePopup.querySelector('.popup__field_info_name');
 const jobInputElement = profilePopup.querySelector('.popup__field_info_job');
 const profileFormElement = profilePopup.querySelector('.popup__content');
 
-
 // Profile Buttons
 const profileEditButton = document.querySelector('.profile__edit');
 const profileCloseButton = document.querySelector('.popup__close');
