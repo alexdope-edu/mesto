@@ -17,5 +17,5 @@
 }
 
 .elements__button:active {
-  background-image: url('../../../images/blackheart.svg');
+  background-image: url("../../../images/blackheart.svg");
 }
