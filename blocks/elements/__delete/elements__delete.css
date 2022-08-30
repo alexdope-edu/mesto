@@ -1,15 +1,18 @@
 .elements__delete {
-    width: 15px;
-    height: 13px;
-    background-image: url("../../../images/garbage.svg");
-    border: 1px solid #ffffff;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-color: #000000;
-    cursor: pointer;
-    padding: 0;
-    transition: opacity 0.5s ease-out;
-    background-size: 10px;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  width: 13px;
+  height: 18px;
+  background-image: url("../../../images/garbage.svg");
+  border: 1px solid #ffffff;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: #000000;
+  cursor: pointer;
+  padding: 0;
+  transition: opacity 0.5s ease-out;
+  background-size: 10px;
   }
   
   .profile__edit:hover {
