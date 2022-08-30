@@ -2,19 +2,19 @@
   position: absolute;
   right: 20px;
   top: 20px;
-  width: 13px;
-  height: 18px;
+  width: 18px;
+  height: 19px;
   background-image: url("../../../images/garbage.svg");
-  border: 1px solid #ffffff;
+  border: none;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: #000000;
+  background-color: transparent;
   cursor: pointer;
   padding: 0;
   transition: opacity 0.5s ease-out;
-  background-size: 10px;
-  }
-  
-  .profile__edit:hover {
-    opacity: 0.6;
-  }
+  color: white;
+}
+
+.elements__delete:hover {
+  opacity: 0.5;
+}

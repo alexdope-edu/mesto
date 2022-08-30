@@ -9,12 +9,23 @@
 </head>
 
 <body class="page">
+
+  <!-- Основной контейнер -->
+
   <div class="page__container">
+
+    <!-- Заголовок -->
+
     <header class="header">
       <img class="header__logo" src="images/Vector.svg" alt="Место" />
     </header>
 
+    <!-- Основной контент -->
+
     <main class="content">
+
+      <!-- Профиль пользователя -->
+
       <section class="profile">
         <div class="profile__content">
           <img class="profile__avatar" src="images/кусто.jpg" alt="Кусто" />
@@ -28,14 +39,22 @@
         </div>
         <button id="addCardButton" class="profile__add" type="button"></button>
       </section>
-      <section id="cards" class="elements">
-        <!-- <button class="elements__delete" type="button"></button> -->
-      </section>
+
+      <!-- Карточки (формируется динамически) -->
+
+      <section id="cards" class="elements"></section>
+
     </main>
+
+    <!-- Подвал -->
+
     <footer class="footer">
       <p class="footer__text">&copy; 2022 Mesto Russia</p>
     </footer>
   </div>
+
+  <!-- Popup профиля -->
+
   <div class="popup" id="profilePopup">
     <form name="loginForm" class="popup__content">
       <button type="button" class="popup__close"></button>
@@ -45,6 +64,8 @@
       <button type="submit" class="popup__submit">Сохранить</button>
     </form>
   </div>
+
+  <!-- Popup добавления карточки -->
 
   <div class="popup" id="addCardPopup">
     <form id="addCardForm" name="loginForm" class="popup__content">
@@ -58,13 +79,18 @@
     </form>
   </div>
 
+  <!-- Popup предпросмотра карточки -->
+
   <div class="popup" id="previewPopup">
     <div class="popup-picture__content">
       <button id="popupPictureClose" type="button" class="popup__close"></button>
-      <img id="previewImage" class="popup-picture__img"/>
+      <img id="previewImage" class="popup-picture__img" />
       <h3 id="previewDescription" class="popup-picture__title"></h3>
     </div>
   </div>
+
+  <!-- Подключение JS -->
+
   <script src="scripts/index.js"></script>
 </body>
 

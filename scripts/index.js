@@ -1,85 +1,129 @@
-const cards = [
-    {
-      name: 'Архыз',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-      name: 'Челябинская область',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-      name: 'Иваново',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-      name: 'Камчатка',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-      name: 'Холмогорский район',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-      name: 'Байкал',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-  ];
 
-
-// Profile Popups
-const profilePopup = document.querySelector('#profilePopup');
-const nameInputElement = profilePopup.querySelector('.popup__field_info_name');
-const jobInputElement = profilePopup.querySelector('.popup__field_info_job');
-const profileFormElement = profilePopup.querySelector('.popup__content');
-
-
-// Profile Buttons
-const profileEditButton = document.querySelector('.profile__edit');
-const profileCloseButton = document.querySelector('.popup__close');
-
-
-// Profile Selectors
-const profileName = document.querySelector('.profile__title');
-const profileJob = document.querySelector('.profile__subtitle');
-
-profileEditButton.addEventListener('click', openProfilePopup);
-profileCloseButton.addEventListener('click', closeProfilePopup);
-profileFormElement.addEventListener('submit', formSubmitHandler);
-
-// 
-// Popup Picture
+//
+// Профиль
 //
 
-const popupPicture = document.querySelector('#previewPopup'); 
+// Заголовок с именем пользователя
+const profileName = document.querySelector('.profile__title');
+// Подзаголовок с профессией пользователя
+const profileJob = document.querySelector('.profile__subtitle');  
+// Popup профиля
+const profilePopup = document.querySelector('#profilePopup');
+// Форма профиля
+const profileFormElement = profilePopup.querySelector('.popup__content');
+// Поле имени в форме профиля
+const nameInputElement = profilePopup.querySelector('.popup__field_info_name');
+// Полу профессии в форме профиля
+const jobInputElement = profilePopup.querySelector('.popup__field_info_job');
+// Кнопка открытия Popup для редактирования профиля
+const profileEditButton = document.querySelector('.profile__edit');
+// Кнопка закрытия Popup для редактирования профиля
+const profileCloseButton = document.querySelector('.popup__close');
+
+// Функция для закрытия popup профиля
+function closeProfilePopup() {
+  profilePopup.classList.remove('popup_opened')
+}
+
+// Обработчик клика на кнопку открытия Popup для редактирования профиля
+profileEditButton.addEventListener('click', () => {
+  // Копирую текущее имя и профессию пользователя в соответствующие поля формы
+  nameInputElement.value = profileName.innerText;
+  jobInputElement.value = profileJob.innerText;
+  profilePopup.classList.add('popup_opened');
+});
+
+// Обработчик клика на кнопку закрытия Popup для редактирования профиля
+profileCloseButton.addEventListener('click', closeProfilePopup);
+
+// Обработчик сохранения формы
+profileFormElement.addEventListener('submit', (event) => {
+  event.preventDefault();
+  
+  // Копирую значения из полей формы в подзаголовки с именем и профессией пользователя
+  profileName.textContent = nameInputElement.value;
+  profileJob.textContent = jobInputElement.value;
+
+  closeProfilePopup()
+});
+
+// 
+// Предпросмотр картинки карточки
+//
+
+// Popup для просмотра
+const popupPicture = document.querySelector('#previewPopup');
+// Кнопка закрытия Popup
 const popupPictureCloseButton = document.querySelector('#popupPictureClose');
+// Подзаголовок с именем карточки в Popup
 const popupPictureDescription = document.querySelector('#previewDescription');
 
+// Обработчик клика на кнопку закрытия Popup
 popupPictureCloseButton.addEventListener('click', () => {
   popupPicture.classList.remove('popup_opened');
 });
 
 //
-// Cards
+// Карточки
 //
 
-const cardsContainer = document.querySelector('#cards');
-const addCardButton = document.querySelector('#addCardButton');
-const addCardPopup = document.querySelector('#addCardPopup');
-const addCardPopupCloseButton = document.querySelector('#addCardPopupCloseButton');
-const addCardInputName = document.querySelector('#addCardInputName');
-const addCardInputLink = document.querySelector('#addCardInputLink');
-const addCardForm = document.querySelector('#addCardForm');
+// Изначальный список карточек (массив)
+const initialCards = [
+  {
+    name: 'Архыз',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+  },
+  {
+    name: 'Челябинская область',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+  },
+  {
+    name: 'Иваново',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+  },
+  {
+    name: 'Камчатка',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+  },
+  {
+    name: 'Холмогорский район',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+  },
+  {
+    name: 'Байкал',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+  }
+];
 
+// Контейнер для карточек
+const cardsContainer = document.querySelector('#cards');
+// Кнопка открытия Popup для добавления карточек
+const addCardButton = document.querySelector('#addCardButton');
+// Popup для добавления карточек
+const addCardPopup = document.querySelector('#addCardPopup');
+// Кнопка закрытия Popup для добавления карточек
+const addCardPopupCloseButton = document.querySelector('#addCardPopupCloseButton');
+// Форма для добавления карточек 
+const addCardForm = document.querySelector('#addCardForm');
+// Поле формы для имени карточки
+const addCardInputName = document.querySelector('#addCardInputName');
+// Поле формы для ссылки на картитнку
+const addCardInputLink = document.querySelector('#addCardInputLink');
+
+// Функция для закрытия Popup для добавления карточек
 function closeAddCardPopup() {
   addCardPopup.classList.remove('popup_opened');
 }
 
+// Обработчик клика на кнопку для открытия popup добавления карточек 
 addCardButton.addEventListener('click', () => { 
   addCardPopup.classList.add('popup_opened');
 });
 
+// Обработчик клика на кнопку для закрытия popup добавления карточек
 addCardPopupCloseButton.addEventListener('click', closeAddCardPopup);
 
+// Обработчик сохранения формы добавления карточек
 addCardForm.addEventListener('submit', (event) => {
   event.preventDefault();
   addCard(addCardInputName.value, addCardInputLink.value, true);
@@ -88,71 +132,84 @@ addCardForm.addEventListener('submit', (event) => {
   addCardInputLink.value = '';
 });
 
-function openProfilePopup() {
-    profilePopup.classList.add('popup_opened');
-    fillProfileForm();
-}
-
-function closeProfilePopup() {
-    profilePopup.classList.remove('popup_opened')
-}
-
-function formSubmitHandler(evt) {
-    evt.preventDefault();
-
-    const nameInput = nameInputElement.value;
-    const jobInput = jobInputElement.value;
-
-    profileName.textContent = nameInput;
-    profileJob.textContent = jobInput;
-
-    closeProfilePopup()
-}
-
-function fillProfileForm () {
-    nameInputElement.value = profileName.innerText;
-    jobInputElement.value = profileJob.innerText;
-}
-
-function renderCards() {
-    for (let i = 0; i < cards.length; i++) {
-      const card = cards[i];
-      addCard(card.name, card.link);      
-    }
-}
-
+// Добавляет новую карточку на страницу
+// Параметр name - строка (имя карточки)
+// Параметр link - строка (ссылка на картинку)
+// Параметр prepend - bool (добавлять карточку в конец списка или в начало, по умолчанию в конец)
 function addCard(name, link, prepend = false) {
+
+  //
+  // Создаю контейнер для карточки (ещё не помещаем в DOM)
+  // Добавляем класс
+  //
+
   const cardBlock = document.createElement('div');
   cardBlock.classList.add('elements__element');
   
+  //
+  // Создаю элемент img, добавляю класс, alt текст и ссылку (src)
+  //
+
   const image = document.createElement('img');
   image.classList.add('elements__photo');
   image.alt = name;
   image.src = link;
-  image.addEventListener('click', (event) => {
 
-    popupPicture.classList.add('popup_opened');
+  //
+  // Назначаю обработчик для клика на картинку.
+  // Откроется Popup предпросмотра картинки.
+  //
+
+  image.addEventListener('click', (event) => {
+    // Сохраняю ссылку на img внутри Popup
     const picture = popupPicture.querySelector('#previewImage');
+    // Ссылка на кликнутую картинку
     const clickedPicture = event.target;
+    // Копирую ссылку из кликнутой картинки в крупную картинку внутри Popup
     picture.src = clickedPicture.src;
+    // Копирую alt текст из кликнутой картинки в подзаголовок внутри Popup
     popupPictureDescription.innerText = clickedPicture.alt;
-    
+    // Добавляю класс для отображения Popup
+    popupPicture.classList.add('popup_opened');
   });
+
+  //
+  // Создаю дочерний div (для размещения подзаголовка и кнопки с лайком)
+  //
 
   const group = document.createElement('div');
   group.classList.add('elements__group');
 
+  //
+  // Создаю подзаголовок для названия картинки
+  // Значение параметра name делаю текстом подзаголовка
+  //
+
   const h2 = document.createElement('h2');
   h2.classList.add('elements__title');
   h2.innerText = name;
+  
+  //
+  // Создаю кнопку like
+  //
 
   const likeButton = document.createElement('button');
   likeButton.classList.add('elements__button');
   likeButton.type = 'button';
+  
+  //
+  // Обработчик клика на кнопку like
+  //
+
   likeButton.addEventListener('click', (event) => {
 
       const className = 'elements__button_liked';
       const classList = event.target.classList;
+
+      //
+      // Если класс elements__button_liked уже есть на кнопке like, то удаляю его (фон сердца станет прозрачным).
+      // Но если класса ещё нет, то добавляю его (фон сердца становится чёрным)
+      //
 
       if (classList.contains(className)) {
           classList.remove(className);
@@ -162,8 +219,32 @@ function addCard(name, link, prepend = false) {
       
   });
 
+  //
+  // Добавляю кнопку удаления карточки
+  //
+
+  const deleteButton = document.createElement('button');
+  deleteButton.classList.add('elements__delete');
+  deleteButton.type = 'button';
+  
+  //
+  // Добавляю обработчик клика на кнопку удаления карточки 
+  //
+
+  deleteButton.addEventListener('click', (event) => {
+    // Удаляю элемент, который является родителем кликнутой кнопки.
+    // В данном случае родитель - контейнер карточки.
+    event.target.parentElement.remove();
+  });
+
+  // Добавляю подзаголовок и кнопку like в дочерний div контейнера карточки
   group.append(h2, likeButton);
-  cardBlock.append(image, group);
+  // Добавляю картинку, дочерний div и кнопку удаления карточки в контейнер карточки
+  cardBlock.append(image, group, deleteButton);
+
+  //
+  // В зависимости от параметра prepend, добавляю новую карточку в начало или конец списка карточек
+  //
 
   if (prepend) {
     cardsContainer.prepend(cardBlock);
@@ -172,6 +253,13 @@ function addCard(name, link, prepend = false) {
   }
 }
 
+//
+// Добавляю изначальные карточки на страницу.
+// Перечисляю все карточки из массива и для каждой вызываю функцию addCard
+//
 
-renderCards();
+for (let i = 0; i < initialCards.length; i++) {
+  const card = initialCards[i];
+  addCard(card.name, card.link);      
+}
 
