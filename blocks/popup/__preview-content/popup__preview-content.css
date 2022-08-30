@@ -1,4 +1,4 @@
-.popup-picture__content {
+.popup__preview-content {
   box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
   position: relative;
   display: flex;
