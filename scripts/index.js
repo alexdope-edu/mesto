@@ -109,6 +109,8 @@ const addCardForm = document.querySelector('#addCardForm');
 const addCardInputName = document.querySelector('#addCardInputName');
 // Поле формы для ссылки на картитнку
 const addCardInputLink = document.querySelector('#addCardInputLink');
+// Шаблон карточки
+const cardTemplate = document.querySelector('#cardTemplate').content; 
 
 // Функция для закрытия Popup для добавления карточек
 function closeAddCardPopup() {
@@ -138,20 +140,14 @@ addCardForm.addEventListener('submit', (event) => {
 // Параметр prepend - bool (добавлять карточку в конец списка или в начало, по умолчанию в конец)
 function addCard(name, link, prepend = false) {
 
-  //
-  // Создаю контейнер для карточки (ещё не помещаем в DOM)
-  // Добавляем класс
-  //
-
-  const cardBlock = document.createElement('div');
-  cardBlock.classList.add('elements__element');
+  // Клонирую шаблон карточки
+  const card = cardTemplate.querySelector('.elements__element').cloneNode(true);
   
   //
-  // Создаю элемент img, добавляю класс, alt текст и ссылку (src)
+  // Добавляю класс, alt текст и ссылку (src) к img
   //
 
-  const image = document.createElement('img');
-  image.classList.add('elements__photo');
+  const image = card.querySelector('img');
   image.alt = name;
   image.src = link;
 
@@ -174,34 +170,18 @@ function addCard(name, link, prepend = false) {
   });
 
   //
-  // Создаю дочерний div (для размещения подзаголовка и кнопки с лайком)
-  //
-
-  const group = document.createElement('div');
-  group.classList.add('elements__group');
-
-  //
-  // Создаю подзаголовок для названия картинки
+  // Получаю ссылку на подзаголовок для названия картинки
   // Значение параметра name делаю текстом подзаголовка
   //
 
-  const h2 = document.createElement('h2');
-  h2.classList.add('elements__title');
+  const h2 = card.querySelector('h2');
   h2.innerText = name;
-  
-  //
-  // Создаю кнопку like
-  //
-
-  const likeButton = document.createElement('button');
-  likeButton.classList.add('elements__button');
-  likeButton.type = 'button';
   
   //
   // Обработчик клика на кнопку like
   //
 
-  likeButton.addEventListener('click', (event) => {
+  card.querySelector('.elements__button').addEventListener('click', (event) => {
 
       const className = 'elements__button_liked';
       const classList = event.target.classList;
@@ -220,36 +200,23 @@ function addCard(name, link, prepend = false) {
   });
 
   //
-  // Добавляю кнопку удаления карточки
-  //
-
-  const deleteButton = document.createElement('button');
-  deleteButton.classList.add('elements__delete');
-  deleteButton.type = 'button';
-  
-  //
   // Добавляю обработчик клика на кнопку удаления карточки 
   //
 
-  deleteButton.addEventListener('click', (event) => {
+  card.querySelector('.elements__delete').addEventListener('click', (event) => {
     // Удаляю элемент, который является родителем кликнутой кнопки.
     // В данном случае родитель - контейнер карточки.
     event.target.parentElement.remove();
   });
-
-  // Добавляю подзаголовок и кнопку like в дочерний div контейнера карточки
-  group.append(h2, likeButton);
-  // Добавляю картинку, дочерний div и кнопку удаления карточки в контейнер карточки
-  cardBlock.append(image, group, deleteButton);
 
   //
   // В зависимости от параметра prepend, добавляю новую карточку в начало или конец списка карточек
   //
 
   if (prepend) {
-    cardsContainer.prepend(cardBlock);
+    cardsContainer.prepend(card);
   } else {
-    cardsContainer.append(cardBlock);
+    cardsContainer.append(card);
   }
 }
 
