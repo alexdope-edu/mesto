@@ -20,21 +20,16 @@ const profileEditButton = document.querySelector('.profile__edit');
 // Кнопка закрытия Popup для редактирования профиля
 const profileCloseButton = document.querySelector('.popup__close');
 
-// Функция для закрытия popup профиля
-function closeProfilePopup() {
-  profilePopup.classList.remove('popup_opened')
-}
-
 // Обработчик клика на кнопку открытия Popup для редактирования профиля
 profileEditButton.addEventListener('click', () => {
   // Копирую текущее имя и профессию пользователя в соответствующие поля формы
   nameInputElement.value = profileName.innerText;
   jobInputElement.value = profileJob.innerText;
-  profilePopup.classList.add('popup_opened');
+  openPopup(profilePopup);
 });
 
 // Обработчик клика на кнопку закрытия Popup для редактирования профиля
-profileCloseButton.addEventListener('click', closeProfilePopup);
+profileCloseButton.addEventListener('click', () => closePopup(profilePopup));
 
 // Обработчик сохранения формы
 profileFormElement.addEventListener('submit', (event) => {
@@ -44,7 +39,7 @@ profileFormElement.addEventListener('submit', (event) => {
   profileName.textContent = nameInputElement.value;
   profileJob.textContent = jobInputElement.value;
 
-  closeProfilePopup()
+  closePopup(profilePopup);
 });
 
 // 
@@ -57,10 +52,12 @@ const popupPicture = document.querySelector('#previewPopup');
 const popupPictureCloseButton = document.querySelector('#popupPictureClose');
 // Подзаголовок с именем карточки в Popup
 const popupPictureDescription = document.querySelector('#previewDescription');
+// Картинка внутри Popup предпросмотра
+const popupPictureImage = document.querySelector('#previewImage');
 
 // Обработчик клика на кнопку закрытия Popup
 popupPictureCloseButton.addEventListener('click', () => {
-  popupPicture.classList.remove('popup_opened');
+  closePopup(popupPicture);
 });
 
 //
@@ -112,34 +109,27 @@ const addCardInputLink = document.querySelector('#addCardInputLink');
 // Шаблон карточки
 const cardTemplate = document.querySelector('#cardTemplate').content; 
 
-// Функция для закрытия Popup для добавления карточек
-function closeAddCardPopup() {
-  addCardPopup.classList.remove('popup_opened');
-}
-
 // Обработчик клика на кнопку для открытия popup добавления карточек 
 addCardButton.addEventListener('click', () => { 
-  addCardPopup.classList.add('popup_opened');
+  openPopup(addCardPopup);
 });
 
 // Обработчик клика на кнопку для закрытия popup добавления карточек
-addCardPopupCloseButton.addEventListener('click', closeAddCardPopup);
+addCardPopupCloseButton.addEventListener('click', () => closePopup(addCardPopup));
 
 // Обработчик сохранения формы добавления карточек
 addCardForm.addEventListener('submit', (event) => {
   event.preventDefault();
-  addCard(addCardInputName.value, addCardInputLink.value, true);
-  closeAddCardPopup();
+  cardsContainer.prepend(createCard(addCardInputName.value, addCardInputLink.value));
+  closePopup(addCardPopup);
   addCardInputName.value = '';
   addCardInputLink.value = '';
 });
 
-// Добавляет новую карточку на страницу
+// Создает новую карточку из шаблона
 // Параметр name - строка (имя карточки)
 // Параметр link - строка (ссылка на картинку)
-// Параметр prepend - bool (добавлять карточку в конец списка или в начало, по умолчанию в конец)
-function addCard(name, link, prepend = false) {
-
+function createCard(name, link) {
   // Клонирую шаблон карточки
   const card = cardTemplate.querySelector('.elements__element').cloneNode(true);
   
@@ -157,16 +147,15 @@ function addCard(name, link, prepend = false) {
   //
 
   image.addEventListener('click', (event) => {
-    // Сохраняю ссылку на img внутри Popup
-    const picture = popupPicture.querySelector('#previewImage');
     // Ссылка на кликнутую картинку
     const clickedPicture = event.target;
-    // Копирую ссылку из кликнутой картинки в крупную картинку внутри Popup
-    picture.src = clickedPicture.src;
+    // Копирую ссылку и alt text из кликнутой картинки в крупную картинку внутри Popup
+    popupPictureImage.src = clickedPicture.src;
+    popupPictureImage.alt = clickedPicture.alt;
     // Копирую alt текст из кликнутой картинки в подзаголовок внутри Popup
     popupPictureDescription.innerText = clickedPicture.alt;
-    // Добавляю класс для отображения Popup
-    popupPicture.classList.add('popup_opened');
+    // Открываю Popup
+    openPopup(popupPicture);
   });
 
   //
@@ -182,7 +171,6 @@ function addCard(name, link, prepend = false) {
   //
 
   card.querySelector('.elements__button').addEventListener('click', (event) => {
-
       const className = 'elements__button_liked';
       const classList = event.target.classList;
 
@@ -206,27 +194,29 @@ function addCard(name, link, prepend = false) {
   card.querySelector('.elements__delete').addEventListener('click', (event) => {
     // Удаляю элемент, который является родителем кликнутой кнопки.
     // В данном случае родитель - контейнер карточки.
-    event.target.parentElement.remove();
+    event.target.closest('.elements__element').remove();
   });
 
-  //
-  // В зависимости от параметра prepend, добавляю новую карточку в начало или конец списка карточек
-  //
+  // Возвращаю карточку
+  return card;
+}
 
-  if (prepend) {
-    cardsContainer.prepend(card);
-  } else {
-    cardsContainer.append(card);
-  }
+// Открывает Popup.
+function openPopup(popup) {
+  popup.classList.add("popup_opened");
+}
+
+// Закрывает Popup.
+function closePopup(popup) {
+  popup.classList.remove("popup_opened");
 }
 
 //
 // Добавляю изначальные карточки на страницу.
-// Перечисляю все карточки из массива и для каждой вызываю функцию addCard
 //
 
 for (let i = 0; i < initialCards.length; i++) {
-  const card = initialCards[i];
-  addCard(card.name, card.link);      
+  const arrayElement = initialCards[i];
+  cardsContainer.append(createCard(arrayElement.name, arrayElement.link));
 }
 
