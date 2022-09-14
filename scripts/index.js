@@ -16,8 +16,6 @@ const nameInputElement = profilePopup.querySelector('#profileNameInput');
 const jobInputElement = profilePopup.querySelector('#profileJobInput');
 // Кнопка открытия Popup для редактирования профиля
 const profileEditButton = document.querySelector('.profile__edit');
-// Кнопка закрытия Popup для редактирования профиля
-const profileCloseButton = document.querySelector('.popup__close');
 
 // Обработчик клика на кнопку открытия Popup для редактирования профиля
 profileEditButton.addEventListener('click', () => {
@@ -29,9 +27,6 @@ profileEditButton.addEventListener('click', () => {
   // Открываю popup.
   openPopup(profilePopup);
 });
-
-// Обработчик клика на кнопку закрытия Popup для редактирования профиля
-profileCloseButton.addEventListener('click', () => closePopup(profilePopup));
 
 // Обработчик сохранения формы
 profileFormElement.addEventListener('submit', (event) => {
@@ -50,17 +45,10 @@ profileFormElement.addEventListener('submit', (event) => {
 
 // Popup для просмотра
 const popupPicture = document.querySelector('#previewPopup');
-// Кнопка закрытия Popup
-const popupPictureCloseButton = document.querySelector('#popupPictureClose');
 // Подзаголовок с именем карточки в Popup
 const popupPictureDescription = document.querySelector('#previewDescription');
 // Картинка внутри Popup предпросмотра
 const popupPictureImage = document.querySelector('#previewImage');
-
-// Обработчик клика на кнопку закрытия Popup
-popupPictureCloseButton.addEventListener('click', () => {
-  closePopup(popupPicture);
-});
 
 //
 // Карточки
@@ -100,8 +88,6 @@ const cardsContainer = document.querySelector('#cards');
 const addCardButton = document.querySelector('#addCardButton');
 // Popup для добавления карточек
 const addCardPopup = document.querySelector('#addCardPopup');
-// Кнопка закрытия Popup для добавления карточек
-const addCardPopupCloseButton = document.querySelector('#addCardPopupCloseButton');
 // Форма для добавления карточек 
 const addCardForm = document.querySelector('#addCardForm');
 // Поле формы для имени карточки
@@ -118,9 +104,6 @@ addCardButton.addEventListener('click', () => {
   // Открываю popup.
   openPopup(addCardPopup);
 });
-
-// Обработчик клика на кнопку для закрытия popup добавления карточек
-addCardPopupCloseButton.addEventListener('click', () => closePopup(addCardPopup));
 
 // Обработчик сохранения формы добавления карточек
 addCardForm.addEventListener('submit', (event) => {

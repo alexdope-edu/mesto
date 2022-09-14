@@ -26,7 +26,7 @@ function clearFieldErrors(field, fieldErrorClass) {
 // Выставляет состояние кнопки submit.
 function setSubmitButtonState(form, disabledSubmitButtonClass) {
     // Если вся форма валидна - активирую кнопку submit. Иначе - блокирую.
-    if (!form.checkValidity()) {
+    if (form.pristine || !form.checkValidity()) {
         form.submitButton.disabled = true;
         form.submitButton.classList.add(disabledSubmitButtonClass);
     } else {
@@ -41,6 +41,7 @@ function enableFieldValidation(field, form, config) {
     field.customErrorContainer = form.querySelector(`.${field.id}${config.errorContainerIndividualClassSuffix}`);
     // Добавляю обработчик события input.
     field.addEventListener('input', () => {
+        form.pristine = false;
         setFieldState(field, config.fieldErrorClass);
         setSubmitButtonState(form, config.disabledSubmitButtonClass);
     });
@@ -50,13 +51,15 @@ function enableFieldValidation(field, form, config) {
 function enableFormValidation(form, config) {
     // Сохраняю ссылку на кнопку submit в объекте формы (чтобы не искать в DOM повторно).
     form.submitButton = form.querySelector(config.submitButtonSelector);
-    // Нахожу все поля формы.
+    // Сохраняю массив полей в объекте формы, чтобы не искать их в DOM повторно.
     const fields = form.querySelectorAll(config.fieldSelector);
     // Включаю валидацию для каждого поля формы.
     fields.forEach(field => enableFieldValidation(field, form, config));
 
     // Добавляю обработчик события reset.
     form.addEventListener('reset', () => {
+        // Помечаю форму как нетронутую пользователем.
+        form.pristine = true;
         // Выставляю состояние кнопки submit.
         setSubmitButtonState(form, config.disabledSubmitButtonClass);
         // Очищаю ошибки во всех полях формы.
