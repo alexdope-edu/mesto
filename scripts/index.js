@@ -1,4 +1,3 @@
-
 //
 // Профиль
 //
@@ -10,11 +9,11 @@ const profileJob = document.querySelector('.profile__subtitle');
 // Popup профиля
 const profilePopup = document.querySelector('#profilePopup');
 // Форма профиля
-const profileFormElement = profilePopup.querySelector('.popup__content');
+const profileFormElement = profilePopup.querySelector('#profileForm');
 // Поле имени в форме профиля
-const nameInputElement = profilePopup.querySelector('.popup__field_info_name');
-// Полу профессии в форме профиля
-const jobInputElement = profilePopup.querySelector('.popup__field_info_job');
+const nameInputElement = profilePopup.querySelector('#profileNameInput');
+// Поле профессии в форме профиля
+const jobInputElement = profilePopup.querySelector('#profileJobInput');
 // Кнопка открытия Popup для редактирования профиля
 const profileEditButton = document.querySelector('.profile__edit');
 // Кнопка закрытия Popup для редактирования профиля
@@ -22,9 +21,12 @@ const profileCloseButton = document.querySelector('.popup__close');
 
 // Обработчик клика на кнопку открытия Popup для редактирования профиля
 profileEditButton.addEventListener('click', () => {
-  // Копирую текущее имя и профессию пользователя в соответствующие поля формы
-  nameInputElement.value = profileName.innerText;
-  jobInputElement.value = profileJob.innerText;
+  // Принудительно сбрасываю форму.
+  profileFormElement.reset();
+  // Копирую текущее имя и профессию пользователя в соответствующие поля формы профиля.
+  setFieldValue(nameInputElement, profileName.innerText);
+  setFieldValue(jobInputElement, profileJob.innerText);
+  // Открываю popup.
   openPopup(profilePopup);
 });
 
@@ -110,7 +112,10 @@ const addCardInputLink = document.querySelector('#addCardInputLink');
 const cardTemplate = document.querySelector('#cardTemplate').content; 
 
 // Обработчик клика на кнопку для открытия popup добавления карточек 
-addCardButton.addEventListener('click', () => { 
+addCardButton.addEventListener('click', () => {
+  // Принудительно сбрасываю форму.
+  addCardForm.reset();
+  // Открываю popup.
   openPopup(addCardPopup);
 });
 
@@ -122,8 +127,6 @@ addCardForm.addEventListener('submit', (event) => {
   event.preventDefault();
   cardsContainer.prepend(createCard(addCardInputName.value, addCardInputLink.value));
   closePopup(addCardPopup);
-  addCardInputName.value = '';
-  addCardInputLink.value = '';
 });
 
 // Создает новую карточку из шаблона
@@ -201,15 +204,46 @@ function createCard(name, link) {
   return card;
 }
 
+// Закрывает Popup по нажатию escape.
+function closePopupOnEscape(event) {
+  if (event.key === 'Escape') {
+    closePopup(document.querySelector('.popup_opened'));
+  }
+}
+
+// Закрывает popup по клику на overlay.
+function closePopupOnOverlayClick(event) {
+  // Если элемент, на который кликнули - это тот же элемент, на котором висит обработчик, тогда закрываю popup.
+  // Также popup закроется, если была кликнута кнопка закрытия.
+  if (event.target === event.currentTarget || event.target.classList.contains('popup__close')) {
+    closePopup(event.currentTarget);
+  }
+}
+
 // Открывает Popup.
 function openPopup(popup) {
+  document.addEventListener('keyup', closePopupOnEscape);
+  popup.addEventListener('click', closePopupOnOverlayClick);
   popup.classList.add("popup_opened");
 }
 
 // Закрывает Popup.
 function closePopup(popup) {
+  document.removeEventListener('keyup', closePopupOnEscape);
+  popup.removeEventListener('click', closePopupOnOverlayClick);
   popup.classList.remove("popup_opened");
 }
+
+// Включаю валидацию форм.
+enableValidation({
+  formSelector: '.validation-target',
+  fieldSelector: '.popup__field',
+  fieldErrorClass: 'popup__field_error',
+  errorContainerSelector: '.popup__input-error',
+  errorContainerIndividualClassSuffix: '-error',
+  submitButtonSelector: 'button[type=submit]',
+  disabledSubmitButtonClass: 'popup__submit_error',
+});
 
 //
 // Добавляю изначальные карточки на страницу.
@@ -219,4 +253,3 @@ for (let i = 0; i < initialCards.length; i++) {
   const arrayElement = initialCards[i];
   cardsContainer.append(createCard(arrayElement.name, arrayElement.link));
 }
-

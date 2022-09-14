@@ -1,0 +1,5 @@
+.popup__field_error {
+  border: none;
+  border-bottom: 1px solid #ff0000;
+  padding: 0 0 13px;
+}

@@ -1,0 +1,16 @@
+.popup__submit_error {
+  background-color: #ffffff;
+  color: #e5e5e5;
+  border: 1px solid #e5e5e5;
+  border-radius: 2px;
+}
+
+@media screen and (max-width: 680px) {
+  .popup__submit_locked {
+    width: 238px;
+    height: 46px;
+    font-size: 14px;
+    line-height: 17px;
+    margin: 45px 0 0;
+  }
+}
