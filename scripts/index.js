@@ -116,7 +116,7 @@ addCardButton.addEventListener('click', () => {
 // Обработчик сохранения формы добавления карточек
 addCardForm.addEventListener('submit', (event) => {
   event.preventDefault();
-  cardsContainer.prepend(new Card(addCardInputName.value, addCardInputLink.value));
+  cardsContainer.prepend(new Card(addCardInputName.value, addCardInputLink.value).getHTMLElement());
   closePopup(addCardPopup);
 });
 
