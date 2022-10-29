@@ -1,11 +1,11 @@
 export class FormValidator {
     constructor(config, form) {
-        this._fieldErrorClass = config.fieldErrorClass || '.popup__field_error';
-        this._errorContainerIndividualClassSuffix = config.errorContainerIndividualClassSuffix || '-error';
-        this._disabledSubmitButtonClass = config.disabledSubmitButtonClass || 'popup__submit_error';
         this._form = form;
-        this._formFields = form.querySelectorAll(config.fieldSelector || '.popup__field');
-        this._formSubmitButton = form.querySelector('button[type=submit]');
+        this._fieldErrorClass = config.fieldErrorClass;
+        this._errorContainerIndividualClassSuffix = config.errorContainerIndividualClassSuffix;
+        this._disabledSubmitButtonClass = config.disabledSubmitButtonClass;
+        this._formFields = form.querySelectorAll(config.fieldSelector);
+        this._formSubmitButton = form.querySelector(config.submitButtonSelector);
     }
 
     // Включает валидацию.
@@ -15,19 +15,17 @@ export class FormValidator {
 
        // Добавляю обработчик события reset.
        this._form.addEventListener('reset', () => {
-           // Помечаю форму как нетронутую пользователем.
-           this._form.pristine = true;
-           // Выставляю состояние кнопки submit.
-           this._setSubmitButtonState();
-           // Очищаю ошибки во всех полях формы.
-           this._formFields.forEach(field => {
-               this._clearFieldErrors(field);  
-           });
+          this.resetValidation();
        });
 
-       // Принудительно сбрасываю форму.
-       this._form.reset();
        return this;
+    }
+
+    resetValidation() {
+        this._setSubmitButtonState();
+        this._formFields.forEach((inputElement) => {
+          this._clearFieldErrors(inputElement);
+        });
     }
 
     // Включаеm валидацию поля формы.
@@ -36,7 +34,6 @@ export class FormValidator {
         field.customErrorContainer = this._form.querySelector(`.${field.id}${this._errorContainerIndividualClassSuffix}`);
         // Добавляю обработчик события input.
         field.addEventListener('input', () => {
-            this._form.pristine = false;
             this._setFieldState(field);
             this._setSubmitButtonState();
         });
@@ -63,7 +60,7 @@ export class FormValidator {
     // Выставляет состояние кнопки submit.
     _setSubmitButtonState() {
         // Если вся форма валидна - активирую кнопку submit. Иначе - блокирую.
-        if (this._form.pristine || !this._form.checkValidity()) {
+        if (!this._form.checkValidity()) {
             this._formSubmitButton.disabled = true;
             this._formSubmitButton.classList.add(this._disabledSubmitButtonClass);
         } else {

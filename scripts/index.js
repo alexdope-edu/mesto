@@ -4,7 +4,7 @@
 
 import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
-import { openPopup, closePopup } from './Popup.js';
+import { openPopup, closePopup } from './popup.js';
 
 //
 // Профиль
@@ -25,11 +25,9 @@ const jobInputElement = profilePopup.querySelector('#profileJobInput');
 // Кнопка открытия Popup для редактирования профиля
 const profileEditButton = document.querySelector('.profile__edit');
 
-// Присваевает значение полю.
-// Также выстреливает событием input, чтобы вызвать соответствующий обработчик (как будто значение было введено в браузере).
-function setFieldValue(field, value) {
-    field.value = value;
-    field.dispatchEvent(new Event('input'));
+// Создает карточку.
+function createCard(name, link) {
+    return new Card(name, link, '#cardTemplate').getHTMLElement();
 }
 
 // Обработчик клика на кнопку открытия Popup для редактирования профиля
@@ -37,8 +35,10 @@ profileEditButton.addEventListener('click', () => {
   // Принудительно сбрасываю форму.
   profileFormElement.reset();
   // Копирую текущее имя и профессию пользователя в соответствующие поля формы профиля.
-  setFieldValue(nameInputElement, profileName.innerText);
-  setFieldValue(jobInputElement, profileJob.innerText);
+  nameInputElement.value, profileName.textContent;
+  jobInputElement.value, profileJob.textContent;
+  // Сбрасываю ошибки валидации;
+  profileFormValidator.resetValidation(); 
   // Открываю popup.
   openPopup(profilePopup);
 });
@@ -61,76 +61,81 @@ profileFormElement.addEventListener('submit', (event) => {
 
 // Изначальный список карточек (массив)
 const initialCards = [
-  new Card(
-    'Архыз', 
-    'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg',
-  ),
-
-  new Card(
-    'Челябинская область',
-    'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg',
-  ),
-
-  new Card(
-    'Иваново',
-    'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg',
-  ),
-
-  new Card(
-    'Камчатка',
-    'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg',
-  ),
-
-  new Card(
-    'Холмогорский район',
-    'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg',
-  ),
-
-  new Card(
-    'Байкал',
-    'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg',
-  )
+  {
+    name: 'Архыз',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg',
+  },
+  {
+    name: 'Челябинская область',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg',
+  },
+  {
+    name: 'Иваново',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg',
+  },
+  {
+    name: 'Камчатка',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg',
+  },
+  {
+    name: 'Холмогорский район',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg',
+  },
+  {
+    name: 'Байкал',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg',
+  }
 ];
 
 // Контейнер для карточек
 const cardsContainer = document.querySelector('#cards');
 // Кнопка открытия Popup для добавления карточек
-const addCardButton = document.querySelector('#addCardButton');
+const cardAddButton = document.querySelector('#addCardButton');
 // Popup для добавления карточек
-const addCardPopup = document.querySelector('#addCardPopup');
+const cardAddPopup = document.querySelector('#addCardPopup');
 // Форма для добавления карточек 
-const addCardForm = document.querySelector('#addCardForm');
+const cardAddForm = document.querySelector('#addCardForm');
 // Поле формы для имени карточки
-const addCardInputName = document.querySelector('#addCardInputName');
+const cardAddInputName = document.querySelector('#addCardInputName');
 // Поле формы для ссылки на картитнку
-const addCardInputLink = document.querySelector('#addCardInputLink');
+const cardAddInputLink = document.querySelector('#addCardInputLink');
 
 // Обработчик клика на кнопку для открытия popup добавления карточек 
-addCardButton.addEventListener('click', () => {
+cardAddButton.addEventListener('click', () => {
   // Принудительно сбрасываю форму.
-  addCardForm.reset();
+  cardAddForm.reset();
+  // Сбрасываю ошибки валидации;
+  cardFormValidator.resetValidation(); 
   // Открываю popup.
-  openPopup(addCardPopup);
+  openPopup(cardAddPopup);
 });
 
 // Обработчик сохранения формы добавления карточек
-addCardForm.addEventListener('submit', (event) => {
+cardAddForm.addEventListener('submit', (event) => {
   event.preventDefault();
-  cardsContainer.prepend(new Card(addCardInputName.value, addCardInputLink.value).getHTMLElement());
-  closePopup(addCardPopup);
+  cardsContainer.prepend(createCard(cardAddInputName.value, cardAddInputLink.value));
+  closePopup(cardAddPopup);
 });
 
+//
 // Включаю валидацию форм.
-// Сохраняю экземпляры FormValidator в массиве, т.r. не обращаюсь к ним в коде.
-const validators = [
-  new FormValidator({}, profileFormElement).enableValidation(),
-  new FormValidator({}, addCardForm).enableValidation(),
-];
+//
+
+const validationConfig = {
+  fieldErrorClass: '.popup__field_error',
+  errorContainerIndividualClassSuffix: '-error',
+  disabledSubmitButtonClass: 'popup__submit_error',
+  fieldSelector: '.popup__field',
+  submitButtonSelector: '.popup__submit',
+};
+
+const profileFormValidator = new FormValidator(validationConfig, profileFormElement).enableValidation();
+const cardFormValidator = new FormValidator(validationConfig, cardAddForm).enableValidation();
 
 //
 // Добавляю изначальные карточки на страницу.
 //
 
 initialCards.forEach((card) => {
-  cardsContainer.append(card.getHTMLElement());
+  cardsContainer.append(createCard(card.name, card.link));
 });

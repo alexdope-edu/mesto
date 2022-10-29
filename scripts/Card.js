@@ -1,4 +1,4 @@
-import { openPopup } from "./Popup.js";
+import { openPopup } from "./popup.js";
 
 // Popup для просмотра
 const popupPicture = document.querySelector('#previewPopup');
@@ -8,27 +8,31 @@ const popupPictureImage = document.querySelector('#previewImage');
 const popupPictureDescription = document.querySelector('#previewDescription');
 
 export class Card {
-    constructor(name, link, templateSelector = '#cardTemplate') {
+    constructor(name, link, templateSelector) {
         // Имя картинки
         this._name = name;
         // Ссылка на картинку
         this._link = link;
-        // Ссылка на шаблон карточки.
-        this._template = document.querySelector(templateSelector).content;
+        // Карточка.
+        this._card = document.querySelector(templateSelector).content.
+            querySelector('.elements__element').
+            cloneNode(true);
+        // Кнопка like.
+        this._buttonLike = this._card.querySelector('.elements__button'); 
+        // Кнопка delete.
+        this._buttonDelete = this._card.querySelector('.elements__delete'); 
     }
 
     // Создает новую карточку из шаблона
     // Параметр name - строка (имя карточки)
     // Параметр link - строка (ссылка на картинку)
     getHTMLElement() {
-        // Клонирую шаблон карточки
-        const card = this._template.cloneNode(true);
-        
+
         //
         // Добавляю класс, alt текст и ссылку (src) к img
         //
     
-        const image = card.querySelector('img');
+        const image = this._card.querySelector('.elements__photo');
         image.alt = this._name;
         image.src = this._link;
     
@@ -37,63 +41,51 @@ export class Card {
         // Откроется Popup предпросмотра картинки.
         //
     
-        image.addEventListener('click', this._previewHandler);
+        image.addEventListener('click', () => {
+            this._previewHandler();
+        });
     
         //
         // Получаю ссылку на подзаголовок для названия картинки
         // Значение параметра name делаю текстом подзаголовка
         //
     
-        const h2 = card.querySelector('h2');
-        h2.innerText = this._name;
+        const h2 = this._card.querySelector('.elements__title');
+        h2.textContent = this._name;
         
         //
         // Обработчик клика на кнопку like
         //
     
-        card.querySelector('.elements__button').addEventListener('click', this._toggleLike);
+        this._buttonLike.addEventListener('click', () => {
+            this._toggleLike();
+        });
     
         //
         // Добавляю обработчик клика на кнопку удаления карточки 
         //
     
-        card.querySelector('.elements__delete').addEventListener('click', this._delete);
+        this._buttonDelete.addEventListener('click', () => {
+            this._delete();
+        });
     
         // Возвращаю карточку
-        return card;
+        return this._card;
     }
 
-    _previewHandler(event) {
-        // Ссылка на кликнутую картинку
-        const clickedPicture = event.target;
-        // Копирую ссылку и alt text из кликнутой картинки в крупную картинку внутри Popup
-        popupPictureImage.src = clickedPicture.src;
-        popupPictureImage.alt = clickedPicture.alt;
-        // Копирую alt текст из кликнутой картинки в подзаголовок внутри Popup
-        popupPictureDescription.innerText = clickedPicture.alt;
-        // Открываю Popup
+    _previewHandler() {
+        popupPictureImage.src = this._link;
+        popupPictureImage.alt = this._name;
+        popupPictureDescription.textContent = this._name;
         openPopup(popupPicture);
     }
 
-    _toggleLike(event) {
-        const className = 'elements__button_liked';
-        const classList = event.target.classList;
-
-        //
-        // Если класс elements__button_liked уже есть на кнопке like, то удаляю его (фон сердца станет прозрачным).
-        // Но если класса ещё нет, то добавляю его (фон сердца становится чёрным)
-        //
-
-        if (classList.contains(className)) {
-            classList.remove(className);
-        } else {
-            classList.add(className);
-        }
+    _toggleLike() {
+        this._buttonLike.classList.toggle('elements__button_liked'); 
     }
 
-    _delete(event) {
-        // Удаляю элемент, который является родителем кликнутой кнопки.
-        // В данном случае родитель - контейнер карточки.
-        event.target.closest('.elements__element').remove();
+    _delete() {
+        this._card.remove();
+        this._card = null;
     }
 }
