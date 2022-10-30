@@ -50,8 +50,8 @@ export class Card {
         // Значение параметра name делаю текстом подзаголовка
         //
     
-        const h2 = this._card.querySelector('.elements__title');
-        h2.textContent = this._name;
+        const title = this._card.querySelector('.elements__title');
+        title.textContent = this._name;
         
         //
         // Обработчик клика на кнопку like

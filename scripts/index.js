@@ -32,8 +32,6 @@ function createCard(name, link) {
 
 // Обработчик клика на кнопку открытия Popup для редактирования профиля
 profileEditButton.addEventListener('click', () => {
-  // Принудительно сбрасываю форму.
-  profileFormElement.reset();
   // Копирую текущее имя и профессию пользователя в соответствующие поля формы профиля.
   nameInputElement.value, profileName.textContent;
   jobInputElement.value, profileJob.textContent;

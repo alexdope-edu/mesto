@@ -12,12 +12,6 @@ export class FormValidator {
     enableValidation() {
        // Включаю валидацию для каждого поля формы.
        this._formFields.forEach(field => this._enableFieldValidation(field));
-
-       // Добавляю обработчик события reset.
-       this._form.addEventListener('reset', () => {
-          this.resetValidation();
-       });
-
        return this;
     }
 
