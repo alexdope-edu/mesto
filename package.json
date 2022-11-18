@@ -1,0 +1,38 @@
+{
+  "name": "mesto",
+  "version": "0.0.1",
+  "description": "Работа имитирует самостоятельное создания адаптивного сайта по макету дизайнера.  \r Представляет собой адаптивную страницу сайта, полностью адаптированную под несколько устройств с разным разрешением экрана.  \r В работе выполнена задача с появлением Pop-Up, который сохраняет введённые в него данные.",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --mode production",
+    "dev": "webpack serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexdope-edu/mesto.git"
+  },
+  "author": "Aleksey puchkin\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[P\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alexdope-edu/mesto/issues"
+  },
+  "homepage": "https://github.com/alexdope-edu/mesto#readme",
+  "dependencies": {
+    "core-js": "^3.26.1",
+    "jquery": "^3.6.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.2",
+    "@babel/preset-env": "^7.20.2",
+    "autoprefixer": "^10.4.13",
+    "babel-loader": "^9.1.0",
+    "clean-webpack-plugin": "^4.0.0",
+    "css-loader": "^6.7.2",
+    "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.6.1",
+    "postcss-loader": "^7.0.1",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.11.1"
+  }
+}

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- <link rel="stylesheet" href="pages/index.css" /> -->
+  <title>Mesto</title>
+</head>
+
+<body class="page">
+
+  <!-- Основной контейнер -->
+
+  <div class="page__container">
+
+    <!-- Заголовок -->
+
+    <header class="header">
+      <img class="header__logo" src="images/Vector.svg" alt="Место" />
+    </header>
+
+    <!-- Основной контент -->
+
+    <main class="content">
+
+      <!-- Профиль пользователя -->
+
+      <section class="profile">
+        <div class="profile__content">
+          <img class="profile__avatar" src="images/кусто.jpg" alt="Кусто" />
+          <div class="profile__info">
+            <div class="profile__conteiner">
+              <h1 class="profile__title">Жак-Ив Кусто</h1>
+              <button class="profile__edit" type="button"></button>
+            </div>
+            <p class="profile__subtitle">Исследователь океана</p>
+          </div>
+        </div>
+        <button id="addCardButton" class="profile__add" type="button"></button>
+      </section>
+
+      <!-- Карточки (формируется динамически) -->
+
+      <section id="cards" class="elements">
+        <template id="cardTemplate">
+          <div class="elements__element">
+            <button class="elements__delete"></button>
+            <img class="elements__photo" />
+            <div class="elements__group">
+              <h2 class="elements__title"></h2>
+              <button class="elements__button"></button>
+            </div>
+          </div>
+        </template>
+      </section>
+
+    </main>
+
+    <!-- Подвал -->
+
+    <footer class="footer">
+      <p class="footer__text">&copy; 2022 Mesto Russia</p>
+    </footer>
+  </div>
+
+  <!-- Popup профиля -->
+
+  <div class="popup" id="profilePopup">
+    <form id="profileForm" name="loginForm" class="popup__content validation-target" novalidate>
+      <button type="button" class="popup__close"></button>
+      <h3 class="popup__title">Редактировать профиль</h3>
+      <input id="profileNameInput" name="fullName" class="popup__field" required minlength="2" maxlength="40"
+        value="" />
+      <span class="popup__input-error profileNameInput-error"></span>
+      <input id="profileJobInput" name="jobInfo" class="popup__field" required minlength="2" maxlength="200" value="" />
+      <span class="popup__input-error profileJobInput-error"></span>
+      <button type="submit" class="popup__submit">Сохранить</button>
+    </form>
+  </div>
+
+  <!-- Popup добавления карточки -->
+
+  <div class="popup" id="addCardPopup">
+    <form id="addCardForm" name="loginForm" class="popup__content validation-target" novalidate>
+      <button id="addCardPopupCloseButton" type="button" class="popup__close"></button>
+      <h3 class="popup__title">Новое место</h3>
+      <input id="addCardInputName" name="name" type="text" placeholder="Название" class="popup__field" required
+        minlength="2" maxlength="40" />
+      <span class="popup__input-error addCardInputName-error"></span>
+      <input id="addCardInputLink" name="link" type="url" placeholder="Ссылка на картинку" class="popup__field"
+        required />
+      <span class="popup__input-error addCardInputLink-error"></span>
+      <button type="submit" class="popup__submit">Сохранить</button>
+    </form>
+  </div>
+
+  <!-- Popup предпросмотра карточки -->
+
+  <div class="popup" id="previewPopup">
+    <div class="popup__preview-content">
+      <button id="popupPictureClose" type="button" class="popup__close"></button>
+      <img id="previewImage" class="popup__preview-image" />
+      <h3 id="previewDescription" class="popup__preview-title"></h3>
+    </div>
+  </div>
+
+  <!-- Подключение JS -->
+  <script type="module" src="scripts/Card.js"></script>
+  <script type="module" src="scripts/popup.js"></script>
+  <script type="module" src="scripts/FormValidator.js"></script>
+  <script type="module" src="scripts/index.js"></script>
+</body>
+
+</html>
